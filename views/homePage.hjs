@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <head>
+      <link rel='stylesheet' href='/styles/bootstrap.min.css' />
+      <link rel='stylesheet' href='/styles/style.css' />
+      <script src="/js/jquery-2.2.0.min.js" type="text/javascript"></script>
+      <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+      <script src="/src/homePage.js" type="text/javascript"></script>
+    </head>
+  </head>
+  <body>
+    <div>
+       <nav class="navbar navbar-inverse" style="padding-left:130px;">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li ><a href="/search">Search</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li class="active"><a href="/homePage">Home Page</a></li>
+            <li><a href="/addEmployee">Add</a></li>
+            <li><a href="/login">Login</a></li>
+          </ul>
+      </nav>
+    </div>
+
+    <div class="container">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Rating</th>
+            <th class="text-center">Model Number</th>
+            <th class="text-center">Quantity</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Location</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          {{#equ}}
+            <tr>
+              <td class="text-center">{{equipment_id}}</td>
+              <td class="text-center">{{equipment_name}}</td>
+              <td class="text-center">{{rating}}</td>
+              <td class="text-center">{{model_number}}</td>
+              <td class="text-center">{{quantity}}</td>
+              <td class="text-center">{{status}}</td>
+              <td class="text-center">{{location}}</td>
+            </tr>
+          {{/equ}}
+          {{^equ}}
+            <tr>
+              <td colspan="7" class="text-center">No equipment data found.</td>
+            </tr>
+          {{/equ}}
+        </tbody>
+
+      </table>
+    </div>
+
+  </body>
+</html>
