@@ -7,8 +7,8 @@ const config = {
     host : 'localhost',
     port : 5432,
     user : 'postgres',
-    password : 'Omar123',
-    database : 'Inventory-System'
+    password : 'psql123',
+    database : 'inventory system'
   }
 };
 
