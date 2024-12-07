@@ -81,6 +81,63 @@ function handlePublicBackendApi(app) {
         return res.status(400).send(err.message);
       }
     });
+  
+    app.get('/api/v1/equipment', async (req, res) => {
+      const { name, category, status, rating } = req.query;
+    
+      try {
+        let query = `
+          SELECT e.equipment_id, e.equipment_name, e.status, c.category_name, e.rating
+          FROM equipments e
+          JOIN categories c ON e.category_id = c.category_id
+          WHERE 1=1
+        `;
+        const params = [];
+    
+        // Add filters dynamically
+        if (name) {
+          query += ' AND LOWER(e.equipment_name) LIKE ?';
+          params.push(`%${name.toLowerCase()}%`);
+        }
+    
+        if (category) {
+          query += ' AND LOWER(c.category_name) = ?';
+          params.push(category.toLowerCase());
+        }
+    
+        if (status) {
+          query += ' AND e.status = ?';
+          params.push(status);
+        }
+
+        if (rating) {
+          query += ' AND e.rating = ?';
+          params.push(rating);
+        }
+    
+        const result = await db.raw(query, params);
+        const rows = result.rows || result[0] || result; // Adjust based on your DB
+    
+        res.status(200).json(rows);
+      } catch (err) {
+        console.error('Database error:', err.message);
+        res.status(500).json({ error: 'Server error' });
+      }
+    });
+    
+    app.get('/api/v1/categories', async (req, res) => {
+      try {
+        const result = await db.raw('SELECT * FROM categories');
+        const rows = result.rows || result[0] || result; // Adjust based on your DB
+    
+        res.status(200).json(rows);
+      } catch (err) {
+        console.error('Database error:', err.message);
+        res.status(500).json({ error: 'Server error' });
+      }
+    });
+    
+
   }
 
 
