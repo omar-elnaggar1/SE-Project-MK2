@@ -81,6 +81,192 @@ function handlePublicBackendApi(app) {
         return res.status(400).send(err.message);
       }
     });
+  
+    app.get('/api/v1/equipment', async (req, res) => {
+      const { name, category, status, rating } = req.query;
+    
+      try {
+        let query = `
+          SELECT e.equipment_id, e.equipment_name, e.status, c.category_name, e.rating
+          FROM equipments e
+          JOIN categories c ON e.category_id = c.category_id
+          WHERE 1=1
+        `;
+        const params = [];
+    
+        // Add filters dynamically
+        if (name) {
+          query += ' AND LOWER(e.equipment_name) LIKE ?';
+          params.push(`%${name.toLowerCase()}%`);
+        }
+    
+        if (category) {
+          query += ' AND LOWER(c.category_name) = ?';
+          params.push(category.toLowerCase());
+        }
+    
+        if (status) {
+          query += ' AND e.status = ?';
+          params.push(status);
+        }
+
+        if (rating) {
+          query += ' AND e.rating = ?';
+          params.push(rating);
+        }
+    
+        const result = await db.raw(query, params);
+        const rows = result.rows || result[0] || result; // Adjust based on your DB
+    
+        res.status(200).json(rows);
+      } catch (err) {
+        console.error('Database error:', err.message);
+        res.status(500).json({ error: 'Server error' });
+      }
+    });
+
+    // Add equipment 
+    app.post('/api/v1/equipment/new', async (req, res) => {
+      const { name, category_id, status, rating } = req.body;
+      const userRole = req.user.role; // Assume `req.user` contains user info after authentication
+    
+      try {
+        // Check if user is an admin
+        if (userRole !== 'admin') {
+          return res.status(403).json({ error: 'Access denied. Only admins can add equipment.' });
+        }
+    
+        // Input validation
+        if (!name || !category_id || !status) {
+          return res.status(400).json({ error: 'Name, category_id, and status are required fields.' });
+        }
+    
+        // SQL query to insert new equipment
+        const query = `
+          INSERT INTO equipments (equipment_name, category_id, status, rating)
+          VALUES (?, ?, ?, ?)
+        `;
+        const params = [name, category_id, status, rating || null]; // Rating is optional
+    
+        const result = await db.raw(query, params);
+    
+        // Respond with success and optionally return the new record's ID
+        res.status(201).json({
+          message: 'Equipment created successfully.',
+          equipmentId: result.insertId, // Adjust based on your DB response structure
+        });
+      } catch (err) {
+        console.error('Database error:', err.message);
+        res.status(500).json({ error: 'Server error' });
+      }
+    });
+    
+// delete equipment
+    app.delete('/api/v1/equipment/:id', async (req, res) => {
+      const equipmentId = req.params.id; // Extract equipment ID from route parameter
+      const userRole = req.user.role; // Assume `req.user` contains user info after authentication
+    
+      try {
+        // Check if user is an admin
+        if (userRole !== 'admin') {
+          return res.status(403).json({ error: 'Access denied. Only admins can delete equipment.' });
+        }
+    
+        // Check if the equipment ID is provided
+        if (!equipmentId) {
+          return res.status(400).json({ error: 'Equipment ID is required.' });
+        }
+    
+        // Execute the delete query
+        const query = 'DELETE FROM equipments WHERE equipment_id = ?';
+        const result = await db.raw(query, [equipmentId]);
+    
+        // Check if any rows were deleted
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ error: 'Equipment not found.' });
+        }
+    
+        res.status(200).json({ message: 'Equipment deleted successfully.' });
+      } catch (err) {
+        console.error('Database error:', err.message);
+        res.status(500).json({ error: 'Server error' });
+      }
+    });
+    
+    // edit equipment 
+    app.put('/api/v1/equipment/:id', async (req, res) => {
+      const equipmentId = req.params.id; // Extract equipment ID from the route parameter
+      const { name, category_id, status, rating } = req.body;
+      const userRole = req.user.role; // Assume `req.user` contains user info after authentication
+    
+      try {
+        // Check if user is an admin
+        if (userRole !== 'admin') {
+          return res.status(403).json({ error: 'Access denied. Only admins can update equipment.' });
+        }
+    
+        // Input validation: Ensure at least one field to update is provided
+        if (!name && !category_id && !status && !rating) {
+          return res.status(400).json({ error: 'At least one field (name, category_id, status, rating) is required to update.' });
+        }
+    
+        // Build the update query dynamically
+        let query = 'UPDATE equipments SET';
+        const params = [];
+        const updateFields = [];
+    
+        if (name) {
+          updateFields.push(' equipment_name = ?');
+          params.push(name);
+        }
+    
+        if (category_id) {
+          updateFields.push(' category_id = ?');
+          params.push(category_id);
+        }
+    
+        if (status) {
+          updateFields.push(' status = ?');
+          params.push(status);
+        }
+    
+        if (rating) {
+          updateFields.push(' rating = ?');
+          params.push(rating);
+        }
+    
+        query += updateFields.join(', ');
+        query += ' WHERE equipment_id = ?';
+        params.push(equipmentId);
+    
+        // Execute the update query
+        const result = await db.raw(query, params);
+    
+        // Check if any rows were updated
+        if (result.affectedRows === 0) {
+          return res.status(404).json({ error: 'Equipment not found or no changes were made.' });
+        }
+    
+        res.status(200).json({ message: 'Equipment updated successfully.' });
+      } catch (err) {
+        console.error('Database error:', err.message);
+        res.status(500).json({ error: 'Server error' });
+      }
+    });
+    
+    app.get('/api/v1/categories', async (req, res) => {
+      try {
+        const result = await db.raw('SELECT * FROM categories');
+        const rows = result.rows || result[0] || result; // Adjust based on your DB
+    
+        res.status(200).json(rows);
+      } catch (err) {
+        console.error('Database error:', err.message);
+        res.status(500).json({ error: 'Server error' });
+      }
+    });
+    
+
   }
 
 
