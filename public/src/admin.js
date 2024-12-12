@@ -92,10 +92,10 @@ $(document).ready(function () {
             $('#role').val('');
           } else {
             // Extract user details
-            const { name, email, password, role } = data[0];
+            const { username, email, password, role } = data[0];
   
             // Populate the form fields with user data
-            $('#name').val(name);
+            $('#name').val(username);
             $('#Email').val(email);
             $('#Password').val(password);
             $('#role').val(role);
