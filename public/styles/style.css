@@ -23,3 +23,238 @@ h1, h2 {
     background-color: #007bff;
     border-color: #007bff;
 }
+/* Scope styles to the login page
+body#login-page {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  } */
+  
+  /* Navbar */
+  body#login-page .navbar {
+    background-color: #222;
+    border: none;
+    border-radius: 0;
+  }
+  
+  body#login-page .navbar .nav > li > a {
+    color: #fff;
+    font-size: 16px;
+  }
+  
+  body#login-page .navbar .nav > li.active > a {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  /* Centered Header */
+  body#login-page .center {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  body#login-page .center h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  body#login-page .center h2 {
+    font-size: 20px;
+    color: #666;
+  }
+  
+  /* Form Container */
+  body#login-page form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+  }
+  
+  /* Form Fields */
+  body#login-page .form-horizontal {
+    width: 70%;
+    margin: 0 auto;
+  }
+  
+  body#login-page .form-group label {
+    font-size: 14px;
+    color: #333;
+    text-align: left;
+  }
+  
+  body#login-page .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  /* Submit Button */
+  body#login-page #submit {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  body#login-page #submit:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Registration Link */
+  body#login-page .col-sm-10 a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  body#login-page .col-sm-10 a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Centering Form and Header */
+  body#login-page .container {
+    text-align: center;
+    width: 100%;
+  }
+  /* Navbar Styling */
+body.register-page .navbar {
+    background-color: #343a40;
+    border: none;
+    border-radius: 0;
+  }
+  
+  body.register-page .navbar .nav > li > a {
+    color: #fff;
+    font-size: 16px;
+  }
+  
+  body.register-page .navbar .nav > li.active > a {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  /* Form Container */
+  body.register-page form {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+  }
+  
+  /* Header Styling */
+  body.register-page .center {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  body.register-page .center h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  body.register-page .center h2 {
+    font-size: 20px;
+    color: #666;
+  }
+  
+  /* Form Fields */
+  body.register-page .form-horizontal {
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  body.register-page .form-group label {
+    font-size: 14px;
+    color: #333;
+    text-align: left;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  body.register-page .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 5px;
+    transition: border-color 0.3s;
+  }
+  
+  body.register-page .form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Submit Button */
+  body.register-page #submit {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+  }
+  
+  body.register-page #submit:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Registration Link */
+  body.register-page .col-sm-10 a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+    margin-top: 10px;
+    display: inline-block;
+  }
+  
+  body.register-page .col-sm-10 a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Centering Container */
+  body.register-page .container {
+    text-align: center;
+    width: 100%;
+    padding: 20px;
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    body.register-page form {
+      padding: 20px;
+      width: 90%;
+    }
+  
+    body.register-page .center h1 {
+      font-size: 28px;
+    }
+  
+    body.register-page .center h2 {
+      font-size: 18px;
+    }
+  }
+  
+  
