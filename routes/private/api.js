@@ -103,6 +103,25 @@ function handlePrivateBackendApi(app) {
           res.status(500).json({ error: 'Server error' });
         }
       });
+      app.delete('/api/v1/users/:id', async (req, res) => {
+        const userId = req.params.id; // Get the userId from the URL params
+    
+        try {
+          const result = await db.raw('DELETE FROM users WHERE user_id = ?', [userId]);
+    
+          // Check if the user was deleted
+          if (result.rowCount === 0 || (result.affectedRows && result.affectedRows === 0)) {
+            return res.status(404).json({ error: 'User not found' });
+          }
+    
+          // Send a success message
+          res.status(200).json({ message: 'User deleted successfully' });
+        } catch (err) {
+          console.error('Database error:', err.message);
+          res.status(500).json({ error: 'Server error' });
+        }
+      });
+    
       
 };
 

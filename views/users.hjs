@@ -1,59 +1,77 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <head>
-      <link rel='stylesheet' href='/styles/bootstrap.min.css' />
-      <link rel='stylesheet' href='/styles/style.css' />
-      <script src="/js/jquery-2.2.0.min.js" type="text/javascript"></script>
-      <script src="/js/bootstrap.min.js" type="text/javascript"></script>
-      <script src="/src/employee.js" type="text/javascript"></script>
-    </head>
-  </head>
-  <body>
-    <div>
-       <nav class="navbar navbar-inverse" style="padding-left:130px;">
-          <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li ><a href="/search">Search</a></li>
-            <li><a href="/profile">Profile</a></li>
-            <li class="active"><a href="/employee">Employee</a></li>
-            <li><a href="/addEmployee">Add</a></li>
-          </ul>
-      </nav>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="/styles/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-inverse" style="padding-left:130px;">
+  <ul class="nav navbar-nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/search">Search</a></li>
+    <li><a href="/admin">Profile</a></li>
+    <li><a href="/employee">Employee</a></li>
+    <li><a href="/addEmployee">Add</a></li>
+    <li class="active"><a href="/users">Users</a></li>
+  </ul>
+</nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center">List of Users</h1>
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through each user and display their details -->
+                {{#users}}
+                    <tr>
+                        <td>{{user_id}}</td>
+                        <td>{{username}}</td>
+                        <td>{{email}}</td>
+                        <td>{{role}}</td>
+                        <td>
+                            <button class="btn btn-danger" onclick="deleteUser({{user_id}})">Delete</button>
+                        </td>
+                    </tr>
+                {{/users}}
+            </tbody>
+        </table>
     </div>
+    
+    <script>
+        // Function to handle the delete action
+        function deleteUser(userId) {
+            // Send a DELETE request using fetch
+            fetch(`/api/v1/users/${userId}`, {
+                method: 'DELETE',  // The HTTP method is DELETE
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    // Optionally, you can reload the page or remove the user from the list
+                    location.reload(); // This reloads the page
+                } else {
+                    alert('Error deleting user');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error deleting user');
+            });
+        }
+    </script>
 
-    <div class="container">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th class="text-center">ID</th>
-            <th class="text-center">FirstName</th>
-            <th class="text-center">MiddleName</th>
-            <th class="text-center">LastName</th>
-            <th class="text-center">Country</th>
-            <th class="text-center">Salary</th>
-            <th class="text-center">Delete</th>
-          </tr>
-        </thead>
-        <tbody id="tbody">
-
-          {{#emp}}
-            <tr>
-               <td class="text-center">{{id}}</td>
-                <td class="text-center">{{firstname}}</td>
-                <td class="text-center">{{middlename}}</td>
-                <td class="text-center">{{lastname}}</td>
-                <td class="text-center">{{country}}</td>
-                <td class="text-center">{{salary}}</td>
-                <td class="text-center">
-                    <button id={{id}} class="btn btn-danger remove" type="button">Delete</button>
-                </td>           
-            </tr>
-          {{/emp}}
-          
-        </tbody>
-      </table>
-    </div>
-
-  </body>
+    <script src="/js/bootstrap.min.js"></script>
+</body>
 </html>
