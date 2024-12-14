@@ -71,6 +71,20 @@
           </select>
         </div>
       </div>
+      <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="text-center">ID</th>
+        <th class="text-center">Name</th>
+        <th class="text-center">Category</th>
+        <th class="text-center">Status</th>
+        <th class="text-center">rating</th>
+      </tr>
+    </thead>
+    <tbody id="equipmentTable">
+      <!-- Results will be dynamically injected here -->
+    </tbody>
+  </table>
     </div>
 
     <!-- Equipment Display Section -->

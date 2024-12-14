@@ -14,7 +14,7 @@ const {authMiddleware} = require('./middleware/auth');
 app.set('views', './views');
 app.set('view engine', 'hjs');
 app.use(express.static('./public'));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static('uploads'));
 
 
 // Handle post requests
