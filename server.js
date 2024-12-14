@@ -21,7 +21,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
-
 handlePublicFrontEndView(app);
 handlePublicBackendApi(app);
 app.use(authMiddleware);

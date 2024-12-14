@@ -9,7 +9,6 @@
       <script src="/src/admin.js" type="text/javascript"></script>
     </head>
   </head>
-  
   <body>
     <div>
       <nav class="navbar navbar-inverse" style="padding-left:130px;">
