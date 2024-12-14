@@ -1,121 +1,105 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <head>
-      <link rel='stylesheet' href='/styles/bootstrap.min.css' />
-      <link rel='stylesheet' href='/styles/style.css' />
-      <script src="/js/jquery-2.2.0.min.js" type="text/javascript"></script>
-      <script src="/js/bootstrap.min.js" type="text/javascript"></script>
-      <script src="/src/homePage.js" type="text/javascript"></script>
-      <script src="/src/filter.js" type="text/javascript"></script>
+    <link rel='stylesheet' href='/styles/bootstrap.min.css' />
+    <link rel='stylesheet' href='/styles/style.css' />
+    <script src="/js/jquery-2.2.0.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/src/homePage.js" type="text/javascript"></script>
+    <script src="/src/filter.js" type="text/javascript"></script>
+    
 
-    </head>
   </head>
   <body>
+    <!-- Welcoming Section -->
+    <div class="container text-center" style="padding: 50px; background-color: #f4f4f4; margin-bottom: 20px;">
+      <h1>Welcome to the inventory system</h1>
+      <p>You are one step away from joining our inventory system.</p>
+      <a href="/login" class="btn btn-primary btn-lg">Login</a>
+    </div>
+
+    <!-- Navigation Bar -->
     <div>
-       <nav class="navbar navbar-inverse" style="padding-left:130px;">
-          <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
-            <li ><a href="/search">Search</a></li>
-            <li><a href="/profile">Profile</a></li>
-            <li class="active"><a href="/homePage">Home Page</a></li>
-            <li><a href="/addEmployee">Add</a></li>
-            <li><a href="/login">Login</a></li>
-          </ul>
+      <nav class="navbar navbar-inverse" style="padding-left:130px;">
+        <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/search">Search</a></li>
+          <li><a href="/profile">Profile</a></li>
+          <li class="active"><a href="/homePage">Home Page</a></li>
+          <li><a href="/image_uplaod">image upload</a></li>
+          <li><a href="/login">Login</a></li>
+        </ul>
       </nav>
     </div>
 
+    <!-- Filters -->
     <div class="container">
-  <div class="row" style="margin-bottom: 20px;">
-    <div class="col-md-4">
-      <input
-        type="text"
-        id="searchName"
-        class="form-control"
-        placeholder="Search by Name"
-      />
-    </div>
-    
-    <div class="col-md-2">
-  <select id="filterCategory" class="form-control">
-    <option value="">All Categories</option>
-    <!-- Categories will be dynamically loaded here -->
-  </select>
-</div>
+      <div class="row" style="margin-bottom: 20px;">
+        <div class="col-md-4">
+          <input
+            type="text"
+            id="searchName"
+            class="form-control"
+            placeholder="Search by Name"
+          />
+        </div>
+        
+        <div class="col-md-2">
+          <select id="filterCategory" class="form-control">
+            <option value="">All Categories</option>
+            <!-- Categories will be dynamically loaded here -->
+          </select>
+        </div>
 
-    <div class="col-md-2">
-      <select id="filterStatus" class="form-control">
-        <option value="">All Statuses</option>
-        <option value="Available">Available</option>
-        <option value="In Use">In Use</option>
-        <option value="Under Maintenance">Under Maintenance</option>
-      </select>
+        <div class="col-md-2">
+          <select id="filterStatus" class="form-control">
+            <option value="">All Statuses</option>
+            <option value="Available">Available</option>
+            <option value="In Use">In Use</option>
+            <option value="Under Maintenance">Under Maintenance</option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <select id="filterRating" class="form-control">
+            <option value="">All Ratings</option>
+            <option value="5">5 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="2">2 Stars</option>
+            <option value="1">1 Star</option>
+          </select>
+        </div>
+      </div>
     </div>
 
-    <div class="col-md-2">
-      <select id="filterRating" class="form-control">
-        <option value="">All Ratings</option>
-        <option value="5">5 Stars</option>
-        <option value="4">4 Stars</option>
-        <option value="3">3 Stars</option>
-        <option value="2">2 Stars</option>
-        <option value="1">1 Stars</option>
-      </select>
-    </div>
+    <!-- Equipment Display Section -->
+    <div class="container">
+      <div class="row" id="equipmentDisplay">
+        {{#equ}}
+        <div class="col-md-3" style="margin-bottom: 20px;">
+          <div class="card" style="border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
+            <img src="{{equipment_img}}" alt="{{equipment_img}}" class="img-responsive" style="height: 200px; width: 100%; object-fit: cover;">
+            <h4 class="text-center" style="margin-top: 10px;">{{equipment_name}}</h4>
+            <p class="text-center">Category: {{category}}</p>
+            <p class="text-center">Status: {{status}}</p>
+            <p class="text-center">Rating: {{rating}} ★</p>
+            <p class="text-center">{{description}}</p>
+          </div>
+          <div class="container">
+  <div class="row" id="equipmentDisplay">
+    <!-- Equipment cards will be dynamically populated here -->
   </div>
-
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th class="text-center">ID</th>
-        <th class="text-center">Name</th>
-        <th class="text-center">Category</th>
-        <th class="text-center">Status</th>
-        <th class="text-center">rating</th>
-      </tr>
-    </thead>
-    <tbody id="equipmentTable">
-      <!-- Results will be dynamically injected here -->
-    </tbody>
-  </table>
 </div>
 
-
-
-    <div class="container">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th class="text-center">ID</th>
-            <th class="text-center">Name</th>
-            <th class="text-center">Rating</th>
-            <th class="text-center">Model Number</th>
-            <th class="text-center">Quantity</th>
-            <th class="text-center">Status</th>
-            <th class="text-center">Location</th>
-          </tr>
-        </thead>
-        <tbody id="tbody">
-          {{#equ}}
-            <tr>
-              <td class="text-center">{{equipment_id}}</td>
-              <td class="text-center">{{equipment_name}}</td>
-              <td class="text-center">{{rating}}</td>
-              <td class="text-center">{{model_number}}</td>
-              <td class="text-center">{{quantity}}</td>
-              <td class="text-center">{{status}}</td>
-              <td class="text-center">{{location}}</td>
-            </tr>
-          {{/equ}}
-          {{^equ}}
-            <tr>
-              <td colspan="7" class="text-center">No equipment data found.</td>
-            </tr>
-          {{/equ}}
-        </tbody>
-
-      </table>
+        </div>
+        {{/equ}}
+        {{^equ}}
+        <div class="col-12 text-center">
+          <p>No equipment available.</p>
+        </div>
+        {{/equ}}
+      </div>
     </div>
-
   </body>
 </html>

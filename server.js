@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 const bodyParser = require("body-parser");
 const {handlePrivateBackendApi} = require('./routes/private/api');
 const {handlePublicBackendApi} = require('./routes/public/api');
@@ -13,6 +14,8 @@ const {authMiddleware} = require('./middleware/auth');
 app.set('views', './views');
 app.set('view engine', 'hjs');
 app.use(express.static('./public'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Handle post requests
 app.use(bodyParser.json());

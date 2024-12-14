@@ -11,6 +11,9 @@ function handlePublicFrontEndView(app) {
       app.get('/login', function(req, res) {
         return res.render('login');
       });
+      app.get('/image_uplaod', function(req, res) {
+        return res.render('image_uplaod');
+      });
    
     }  
   

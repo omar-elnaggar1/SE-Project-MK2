@@ -1,7 +1,17 @@
 const { v4 } = require('uuid');
 const db = require('../../connectors/db');
-
+const multer = require('multer');
+const path = require('path');
 function handlePublicBackendApi(app) {
+  const fs = require('fs');
+const path = require('path');
+
+// Ensure the 'uploads' directory exists
+const uploadsDir = path.join(__dirname, '../../uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 
     // Register HTTP endpoint to create new user
     app.post('/api/v1/users', async function(req, res) {
@@ -136,6 +146,57 @@ function handlePublicBackendApi(app) {
         res.status(500).json({ error: 'Server error' });
       }
     });
+    const storage = multer.diskStorage({
+      destination: function (req, file, cb) {
+          cb(null, 'uploads/'); // Directory to store uploaded files
+      },
+      filename: function (req, file, cb) {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+          cb(null, uniqueSuffix + '-' + file.originalname);
+      }
+  });
+
+   // Configure multer for file uploads
+  const diskStorage = multer.diskStorage({
+      destination: (req, file, cb) => {
+          cb(null, './uploads/'); // Ensure this directory exists
+      },
+      filename: (req, file, cb) => {
+          const uniqueName = `${Date.now()}-${file.originalname}`;
+          cb(null, uniqueName);
+      }
+  });
+  const upload = multer({storage });
+
+  // API Endpoint to upload an image
+  app.post('/api/v1/equipments/uploadImage', upload.single('image'), async (req, res) => {
+      const { equipmentId } = req.body;
+
+      if (!equipmentId || !req.file) {
+          return res.status(400).send('Equipment ID and image are required.');
+      }
+
+      const imagePath = `/uploads/${req.file.filename}`;
+
+      try {
+          const updated = await db('equipments')
+              .where({ equipment_id: equipmentId })
+              .update({ equipment_img: imagePath })
+              .returning('*');
+
+          if (!updated.length) {
+              return res.status(404).send('Equipment not found.');
+          }
+
+          res.status(200).send('Image uploaded and equipment updated successfully.');
+      } catch (error) {
+          console.error('Error updating database:', error.message);
+          res.status(500).send('Internal server error.');
+      }
+  });
+
+    
+    
     
 
   }
