@@ -18,6 +18,7 @@ app.use(express.static('./public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
+
 handlePublicFrontEndView(app);
 handlePublicBackendApi(app);
 app.use(authMiddleware);

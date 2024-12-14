@@ -18,6 +18,7 @@ function handlePrivateFrontEndView(app) {
 app.get('/users', async (req, res) => {
     console.log("GET /users route hit!");
 
+    
     try {
         // Fetch all users from the database
         const users = await db.raw('SELECT * FROM users');
