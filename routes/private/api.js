@@ -123,6 +123,176 @@ function handlePrivateBackendApi(app) {
       });
     
       
+    // Get Categories
+    app.get('/api/v1/categories', async (req, res) => {
+      try {
+          const categories = await db.raw('SELECT * FROM Categories');
+          res.json(categories.rows);
+      } catch (err) {
+          console.error('Database error:', err.message);
+          res.status(500).json({ error: 'Server error' });
+      }
+  });
+
+  // Get Suppliers
+  app.get('/api/v1/suppliers', async (req, res) => {
+      try {
+          const suppliers = await db.raw('SELECT * FROM Suppliers');
+          res.json(suppliers.rows);
+      } catch (err) {
+          console.error('Database error:', err.message);
+          res.status(500).json({ error: 'Server error' });
+      }
+  });
+// Add Equipment
+app.post('/api/v1/equipment', async (req, res) => {
+const { name, image, model_number, purchase_date, quantity, status, location, category_id, supplier_id } = req.body;
+
+console.log('Received equipment data:', {
+    name, 
+    image, 
+    model_number, 
+    purchase_date, 
+    quantity, 
+    status, 
+    location, 
+    category_id, 
+    supplier_id
+});
+
+try {
+    // Ensure all required fields are provided
+    if (!name || !model_number || !purchase_date || quantity === undefined) {
+        return res.status(400).json({ error: 'Name, model number, purchase date, and quantity are required' });
+    }
+
+    // Validate quantity is a number
+    const parsedQuantity = parseInt(quantity);
+    if (isNaN(parsedQuantity)) {
+        return res.status(400).json({ error: 'Quantity must be a valid number' });
+    }
+
+    // Insert the equipment into the database
+    const result = await db.raw(
+        `INSERT INTO equipments (
+            equipment_name, 
+            equipment_img, 
+            model_number, 
+            purchase_date, 
+            quantity, 
+            status, 
+            location, 
+            category_id, 
+            supplier_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) 
+        RETURNING equipment_id`,
+        [
+            name, 
+            image || null, 
+            model_number, 
+            purchase_date, 
+            parsedQuantity, 
+            status , 
+            location || null, 
+            category_id || null, 
+            supplier_id || null
+        ]
+    );
+
+    // Check if the equipment was inserted
+    if (result.rows.length === 0) {
+        return res.status(500).json({ error: 'Failed to insert equipment' });
+    }
+
+    res.status(201).json({ 
+        message: 'Equipment added successfully',
+        equipment_id: result.rows[0].equipment_id 
+    });
+} catch (err) {
+    console.error('Full error details:', err);
+    res.status(500).json({ 
+        error: 'Server error', 
+        details: err.message 
+    });
+}
+});
+  // Edit Equipment
+  app.put('/api/v1/equipment/:id', async (req, res) => {
+      const equipmentId = req.params.id;
+      const { name, image, model_number, purchase_date, quantity, status, location, category_id, supplier_id } = req.body;
+
+      try {
+          // Ensure all required fields are provided
+          if (!name || !model_number || !purchase_date || quantity === undefined) {
+              return res.status(400).json({ error: 'Name, model number, purchase date, and quantity are required' });
+          }
+
+          // Update the equipment in the database
+          const result = await db.raw(
+              `UPDATE equipments
+               SET equipment_name = ?, 
+                   equipment_img = ?, 
+                   model_number = ?, 
+                   purchase_date = ?, 
+                   quantity = ?,
+                   status = ?,
+                   location = ?,
+                   category_id = ?,
+                   supplier_id = ?
+               WHERE equipment_id = ?
+               RETURNING *`,
+              [
+                  name, 
+                  image || null, 
+                  model_number, 
+                  purchase_date, 
+                  quantity, 
+                  status , 
+                  location || null, 
+                  category_id || null, 
+                  supplier_id || null, 
+                  equipmentId
+              ]
+          );
+
+          // Check if the equipment was updated
+          if (result.rows.length === 0) {
+              return res.status(404).json({ error: 'Equipment not found or no changes made' });
+          }
+
+          res.status(200).json({ 
+              message: 'Equipment updated successfully',
+              equipment: result.rows[0]
+          });
+      } catch (err) {
+          console.error('Database error:', err.message);
+          res.status(500).json({ error: 'Server error' });
+      }
+  });
+
+  // Delete Equipment
+  app.delete('/api/v1/equipment/:id', async (req, res) => {
+      const equipmentId = req.params.id;
+
+      try {
+          // Delete the equipment from the database
+          const result = await db.raw(
+              'DELETE FROM equipments WHERE equipment_id = ?', 
+              [equipmentId]
+          );
+
+          // Check if the equipment was deleted
+          if (result.rowCount === 0) {
+              return res.status(404).json({ error: 'Equipment not found' });
+          }
+
+          res.status(200).json({ message: 'Equipment deleted successfully' });
+      } catch (err) {
+          console.error('Database error:', err.message);
+          res.status(500).json({ error: 'Server error' });
+      }
+  });
+      
 };
 
 //my edit

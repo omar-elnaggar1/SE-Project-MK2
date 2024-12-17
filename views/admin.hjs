@@ -19,6 +19,7 @@
             <li ><a href="/employee">Employee</a></li>
             <li><a href="/addEmployee">Add</a></li>
             <li><a href="/users">Users</a></li>
+             <li><a href="/equipment">Equipment</a></li>
           </ul>
       </nav>
     </div>
