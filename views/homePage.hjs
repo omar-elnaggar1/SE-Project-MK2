@@ -11,13 +11,7 @@
 
   </head>
   <body>
-    <!-- Welcoming Section -->
-    <div class="container text-center" style="padding: 50px; background-color: #f4f4f4; margin-bottom: 20px;">
-      <h1>Welcome to the inventory system</h1>
-      <p>You are one step away from joining our inventory system.</p>
-      <a href="/login" class="btn btn-primary btn-lg">Login</a>
-    </div>
-
+    
     <!-- Navigation Bar -->
     <div>
       <nav class="navbar navbar-inverse" style="padding-left:130px;">
@@ -26,7 +20,7 @@
           <li><a href="/search">Search</a></li>
           <li><a href="/profile">Profile</a></li>
           <li class="active"><a href="/homePage">Home Page</a></li>
-          <li><a href="/image_uplaod">image upload</a></li>
+          
           <li><a href="/login">Login</a></li>
         </ul>
       </nav>
