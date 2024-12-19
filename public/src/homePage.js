@@ -19,9 +19,9 @@ $(document).ready(function () {
                 <p class="text-center">Status: ${equipment.status}</p>
                 <p class="text-center">Rating: ${equipment.rating} ★</p>
                 <p class="text-center">${equipment.description || 'No description available.'}</p>
-                <div class="text-center">
-                  <button id="${equipment.equipment_id}" class="btn btn-danger remove" type="button">Delete</button>
-                </div>
+                <td class="text-center">
+                <a href="/equipments/${equipment.equipment_id}" class="btn btn-info">Details</a>
+                </td>
               </div>
             </div>
           `;
