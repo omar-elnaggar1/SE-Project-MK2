@@ -92,7 +92,7 @@
       </div>
 
       <div class="button-container">
-        <a href="/" class="btn-back">Back</a>
+        <a href="/homePage" class="btn-back">Back</a>
       </div>
     </div>
 
