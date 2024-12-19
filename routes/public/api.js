@@ -169,30 +169,30 @@ if (!fs.existsSync(uploadsDir)) {
   const upload = multer({storage });
 
   // API Endpoint to upload an image
-  app.post('/api/v1/equipments/uploadImage', upload.single('image'), async (req, res) => {
-      const { equipmentId } = req.body;
+  app.post('/api/v1/equipments/uploadImage', async (req, res) => {
+    const { equipmentId, imageUrl } = req.body;
 
-      if (!equipmentId || !req.file) {
-          return res.status(400).send('Equipment ID and image are required.');
-      }
+    // Validate inputs
+    if (!equipmentId || !imageUrl) {
+        return res.status(400).send('Equipment ID and image URL are required.');
+    }
 
-      const imagePath = `/uploads/${req.file.filename}`;
+    try {
+        // Update database with image URL
+        const updated = await db('equipments')
+            .where({ equipment_id: equipmentId })
+            .update({ equipment_img: imageUrl })
+            .returning('*');
 
-      try {
-          const updated = await db('equipments')
-              .where({ equipment_id: equipmentId })
-              .update({ equipment_img: imagePath })
-              .returning('*');
+        if (!updated.length) {
+            return res.status(404).send('Equipment not found.');
+        }
 
-          if (!updated.length) {
-              return res.status(404).send('Equipment not found.');
-          }
-
-          res.status(200).send('Image uploaded and equipment updated successfully.');
-      } catch (error) {
-          console.error('Error updating database:', error.message);
-          res.status(500).send('Internal server error.');
-      }
+        res.status(200).send('Image URL updated successfully.');
+    } catch (error) {
+        console.error('Error updating database:', error.message);
+        res.status(500).send('Internal server error.');
+    }
   });
 
     
