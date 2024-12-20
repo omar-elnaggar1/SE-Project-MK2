@@ -8,37 +8,82 @@
     <link rel="stylesheet" href="/styles/bootstrap.min.css">
     <style>
         .navbar-inverse {
-      background-color: #2c3e50;
-      border-color: #34495e;
-    }
-    .navbar-inverse .nav > li > a {
-      color: #ecf0f1;
-      transition: all 0.3s ease;
-    }
-    .navbar-inverse .nav > li > a:hover,
-    .navbar-inverse .nav > li.active > a {
-      background-color: #34495e;
-      color: #3498db;
-    }
+            background-color: #2c3e50;
+            border-color: #34495e;
+        }
+
+        .navbar-inverse .nav > li > a {
+            color: #ecf0f1;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-inverse .nav > li > a:hover,
+        .navbar-inverse .nav > li.active > a {
+            background-color: #34495e;
+            color: #3498db;
+        }
+
+        .table {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 12px;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e8f6f3;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+            color: #fff;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-inverse" style="padding-left:130px;">
-  <ul class="nav navbar-nav">
-    <li><a href="/">logout</a></li>
+        <ul class="nav navbar-nav">
+            <li><a href="/">Logout</a></li>
             <li class="active"><a href="/homePage">Home Page</a></li>
-        
             <li><a href="/admin">Profile</a></li>
             <li><a href="/image_uplaod">Image Upload</a></li>
-            
-    <li class="active"><a href="/users">Users</a></li>
-          <li><a href="/equipment">Equipment</a></li>
-  </ul>
-</nav>
+            <li class="active"><a href="/users">Users</a></li>
+            <li><a href="/equipment">Equipment</a></li>
+        </ul>
+    </nav>
 
     <div class="container mt-5">
         <h1 class="text-center">List of Users</h1>
-        <table class="table table-bordered mt-4">
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -49,35 +94,31 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Loop through each user and display their details -->
                 {{#users}}
-                    <tr>
-                        <td>{{user_id}}</td>
-                        <td>{{username}}</td>
-                        <td>{{email}}</td>
-                        <td>{{role}}</td>
-                        <td>
-                            <button class="btn btn-danger" onclick="deleteUser({{user_id}})">Delete</button>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>{{user_id}}</td>
+                    <td>{{username}}</td>
+                    <td>{{email}}</td>
+                    <td>{{role}}</td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteUser({{user_id}})">Delete</button>
+                    </td>
+                </tr>
                 {{/users}}
             </tbody>
         </table>
     </div>
-    
+
     <script>
-        // Function to handle the delete action
         function deleteUser(userId) {
-            // Send a DELETE request using fetch
             fetch(`/api/v1/users/${userId}`, {
-                method: 'DELETE',  // The HTTP method is DELETE
+                method: 'DELETE',
             })
             .then(response => response.json())
             .then(data => {
                 if (data.message) {
                     alert(data.message);
-                    // Optionally, you can reload the page or remove the user from the list
-                    location.reload(); // This reloads the page
+                    location.reload();
                 } else {
                     alert('Error deleting user');
                 }
