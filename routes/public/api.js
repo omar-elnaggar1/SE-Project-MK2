@@ -194,13 +194,32 @@ if (!fs.existsSync(uploadsDir)) {
         res.status(500).send('Internal server error.');
     }
   });
-
-    
-    
-    
-
+  app.get('/equipment/details/:id', async (req, res) => {
+    const equipmentId = req.params.id;
+  
+    try {
+      const query = `
+        SELECT e.*, c.category_name
+        FROM equipments e
+        JOIN categories c ON e.category_id = c.category_id
+        WHERE e.equipment_id = ?
+      `;
+      const result = await db.raw(query, [equipmentId]);
+      const equipment = result.rows[0] || result[0];
+  
+      if (!equipment) {
+        return res.status(404).send('Equipment not found');
+      }
+  
+      res.render('equipmentDetails', { equipment });
+    } catch (err) {
+      console.error('Error fetching equipment details:', err.message);
+      res.status(500).send('Server error');
+    }
+  });
   }
 
+  
 
 
 

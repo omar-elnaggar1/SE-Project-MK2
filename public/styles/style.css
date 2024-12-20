@@ -258,5 +258,22 @@ body.register-page .navbar {
       font-size: 18px;
     }
   }
+  #hoverContainer {
+    max-width: 350px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .hover-details img {
+    display: block;
+    margin: 10px auto;
+  }
+  
+  .hover-details p {
+    margin: 5px 0;
+  }
   
   
