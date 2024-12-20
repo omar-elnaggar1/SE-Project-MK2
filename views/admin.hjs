@@ -59,9 +59,9 @@
 <body>
     <nav class="navbar navbar-inverse" style="padding-left: 130px;">
         <ul class="nav navbar-nav">
-            <li><a href="/">Home</a></li>
+            <li><a href="/">logout</a></li>
             <li class="active"><a href="/homePage">Home Page</a></li>
-            <li><a href="/search">Search</a></li>
+          
             <li><a href="/admin">Profile</a></li>
             <li><a href="/image_uplaod">Image Upload</a></li>
             <li><a href="/users">Users</a></li>
