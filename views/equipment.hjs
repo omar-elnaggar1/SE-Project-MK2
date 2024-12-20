@@ -25,7 +25,7 @@
     .container {
       background-color: white;
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 6px #34495e
       padding: 30px;
       margin-top: 20px;
     }
@@ -91,7 +91,7 @@
       <ul class="nav navbar-nav">
         <li><a href="/">logout</a></li>
             <li class="active"><a href="/homePage">Home Page</a></li>
-            <li><a href="/search">Search</a></li>
+            
             <li><a href="/admin">Profile</a></li>
             <li><a href="/image_uplaod">Image Upload</a></li>
             <li><a href="/users">Users</a></li>
