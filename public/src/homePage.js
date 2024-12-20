@@ -47,7 +47,7 @@ $(document).ready(function () {
       type: "DELETE",
       url: `/api/v1/equipments/${equipmentId}`,
       success: function () {
-        alert("Equipment deleted successfully!");
+        console.log("Equipment deleted successfully!");
         loadEquipment(); // Reload the equipment display
       },
       error: function (errorResponse) {
