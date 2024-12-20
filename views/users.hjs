@@ -31,8 +31,8 @@
             <li><a href="/admin">Profile</a></li>
             <li><a href="/image_uplaod">Image Upload</a></li>
             
-          <li><a href="/equipment">Equipment</a></li>
     <li class="active"><a href="/users">Users</a></li>
+          <li><a href="/equipment">Equipment</a></li>
   </ul>
 </nav>
 
